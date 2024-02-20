@@ -34,7 +34,7 @@ tags = [
 # Création de l'application
 app = FastAPI(
        title="API de prediction",
-       description= "Predictions",
+       description= "API servant à faire des prédictions sur les catégories de Sleep Disorder d'une personne en fonction de certains paramètres",
        version= "1.0.0",
        openapi_tags= tags
 )
