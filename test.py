@@ -2,6 +2,7 @@
 from unittest import TestCase, main
 from fastapi.testclient import TestClient
 import os
+import subprocess
 from api import app, model_1, model_2
 
 # assertEqual(a, b) : Vérifie si a est égal à b.
@@ -31,13 +32,23 @@ class TestDev(TestCase):
 
     # Vérifie que les fichiers sont présents
     def test_files(self):
-        import os
+        required_files = ['requirements.txt', 'Notebook_1.ipynb', 'Notebook_2.ipynb', 'model_1.pkl', 'model_2.pkl']
         list_files = os.listdir()
-        self.assertTrue(len(list_files) > 0)
+
+        for file in required_files:
+            self.assertIn(file, list_files, f"{file} n'a pas été trouvé")
+
 
     # Vérifie que les requirements sont présents
     def test_requirements(self):
-        self.assertTrue(os.path.isfile("requirements.txt"))
+        required_libraries = ['fastapi', 'numpy', 'pandas', 'scikit-learn']
+
+        with open('requirements.txt', 'r') as file:
+            requirements = file.read()
+
+        for library in required_libraries:
+            self.assertIn(library, requirements, f"{library} est manquante dans le requirements.txt")
+
 
     
     # Vérifie que le gitignore est présent
@@ -50,8 +61,6 @@ client = TestClient(app)
 
 # Tests unitaire de l'API
 class TestRoute(TestCase):
-
-    # Vérifie que l'API est bien lancée
 
     # Vérifie le endpoint hello
     def test_hello(self):

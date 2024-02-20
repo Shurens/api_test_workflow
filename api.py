@@ -19,15 +19,15 @@ model_2 = joblib.load('model_2.pkl')
 tags = [
        {
               "name": "Hello",
-              "description": "Hello World",
+              "description": "Retourne un Hello world basique",
        },
        {
               "name": "Predict V1",
-              "description": "Pour les prédictions effectuées avec le modèle 1",
+              "description": "Pour les prédictions effectuées avec le modèle 1 sur Sleep Disorder",
        },
        {
               "name": "Predict V2",
-              "description": "Pour les prédictions effectuées avec le modèle 2."
+              "description": "Pour les prédictions effectuées avec le modèle 2 sur Sleep Disorder"
        }
 ]
 
@@ -40,7 +40,7 @@ app = FastAPI(
 )
 
 # Point de terminaison avec paramètre
-@app.get("/hello", tags=["Hello name V1"])
+@app.get("/hello", tags=["Hello"])
 def hello(name: str='World'):
        return {"message": f"Hello {name}"}
 
@@ -61,6 +61,16 @@ class Credit(BaseModel):
 # Point de terminaison : Prédiction 1
 @app.post("/predict", tags=["Predict V1"])
 def predict_1(credit: Credit) :
+       """
+       Make a prediction on sleep disorder
+       - **Gender**: Gender of the person 
+       - **Age**: Age of the person
+       - **Physical Activity Level**: Physical Activity Level of the person
+       - **Heart Rate**: Heart Rate of the person
+       - **Daily Steps**: Daily Steps of the person
+       - **BloodPressure_high**: BloodPressure_high of the person
+       - **BloodPressure_low**: BloodPressure_high of the person
+       """
        data = dict(credit)
        data = {"Gender" : data["Gender"],
                "Age": data["Age"],
@@ -91,6 +101,12 @@ class Physique(BaseModel):
 # Point de terminaison : Prédiction 2
 @app.post("/predict_2", tags=["Predict V2"])
 def predict_2(physique: Physique) :
+       """
+       Make a prediction on sleep disorder with different parameters
+       - **Physical Activity Level**: Physical Activity Level of the person
+       - **Heart Rate**: Heart Rate of the person
+       - **Daily Steps**: Daily Steps of the person
+       """
        data = dict(physique)
        
        data = {"Physical Activity Level" : data["Physical_Activity_Level"],
